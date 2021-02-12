@@ -95,7 +95,7 @@ processRequestResults(error, response, body, callback) {
   if (error) {
       console.error('Error present.');
       callbackError = error;
-    } else if (this.isHibernating(response)) {
+    } else if (!validResponseRegex.test(response.statusCode)) {
       console.error('Bad response code.');
       callbackError = response;
     } else if (this.isHibernating(response)) {
@@ -130,7 +130,7 @@ sendRequest(callOptions, callback) {
     baseUrl: this.options.url,
     uri: uri,
   };
-  console.log(requestOptions);
+  console.log('OPTIONS :::',requestOptions);
   request(requestOptions, (error, response, body) => {
     this.processRequestResults(error, response, body, (processedResults, processedError) => callback(processedResults, processedError));
   });
